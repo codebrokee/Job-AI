@@ -5,16 +5,17 @@ const handleRequest = createRequestHandler(build, process.env.NODE_ENV);
 
 export default async function handler(request) {
   try {
-    // Vercel handles the standard Request/Response API.
-    // If request.url is just a path, construct a full URL.
     const url = new URL(request.url, `https://${request.headers.get("host") || "localhost"}`);
     
-    // Create a new Request object with the absolute URL if it's not already absolute
+    // Some headers and methods don't allow body
+    const hasBody = !["GET", "HEAD"].includes(request.method);
+    
     const newRequest = new Request(url.href, {
       method: request.method,
       headers: request.headers,
-      body: request.body,
-      duplex: 'half'
+      body: hasBody ? request.body : null,
+      // duplex is required when passing a stream body to Request constructor in Node.js
+      ...(hasBody && { duplex: 'half' })
     });
 
     return await handleRequest(newRequest);
