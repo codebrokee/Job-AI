@@ -1,15 +1,14 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "build/client",
-  "framework": "remix",
   "rewrites": [
     {
       "source": "/((?!api/).*)",
-      "destination": "/api/server"
+      "destination": "/api/index"
     }
   ],
   "functions": {
-    "api/*.js": {
+    "api/index.js": {
       "includeFiles": "build/server/**"
     }
   }
