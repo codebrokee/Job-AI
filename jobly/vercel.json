@@ -9,7 +9,7 @@
   ],
   "functions": {
     "api/index.js": {
-      "includeFiles": "build/server/**"
+      "includeFiles": "build/**"
     }
   }
 }
